@@ -3,567 +3,216 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#17191e">
-  <meta name="description" content="Wobblengine 2D game engine documentation">
+  <meta name="theme-color" content="#ffffff">
   <title>Wobblengine Documentation</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #17191e;
-      --panel: #1e2128;
-      --panel-2: #242832;
-      --border: #343945;
-      --text: #e5e8ef;
-      --muted: #a0a8b7;
-      --accent: #80b8ff;
-      --accent-bg: #253b55;
-      --code: #111318;
-      --sidebar-width: 290px;
+      color-scheme: light;
+      --ink: #25282d; --muted: #68717d; --line: #e1e5e9; --soft: #f4f6f8;
+      --blue: #1769aa; --blue-soft: #eaf4fc; --nav-width: 278px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 15px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    a { color: var(--accent); }
-    button, input { font: inherit; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      min-height: 62px;
-      padding: 10px 22px;
-      background: rgba(23, 25, 30, .96);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-    }
-
-    .brand {
-      color: var(--text);
-      font-weight: 700;
-      font-size: 17px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .version {
-      color: var(--muted);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    .search {
-      width: min(440px, 48vw);
-      margin-left: auto;
-      padding: 9px 12px;
-      color: var(--text);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      outline: none;
-    }
-
-    .search:focus { border-color: var(--accent); }
-
-    .layout {
-      display: grid;
-      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-      min-height: calc(100vh - 62px);
-    }
-
-    aside {
-      position: sticky;
-      top: 62px;
-      align-self: start;
-      height: calc(100vh - 62px);
-      overflow-y: auto;
-      padding: 20px 14px;
-      background: var(--panel);
-      border-right: 1px solid var(--border);
-    }
-
-    .nav-group { margin-bottom: 22px; }
-    .nav-heading {
-      margin: 0 10px 8px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .09em;
-      text-transform: uppercase;
-    }
-
-    .nav-link {
-      display: block;
-      width: 100%;
-      padding: 7px 10px;
-      color: var(--muted);
-      text-align: left;
-      background: transparent;
-      border: 0;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .nav-link:hover { color: var(--text); background: var(--panel-2); }
-    .nav-link.active { color: var(--accent); background: var(--accent-bg); }
-    .nav-link.hidden { display: none; }
-    .nav-group.empty { display: none; }
-
-    main {
-      width: min(100%, 1040px);
-      padding: 46px clamp(22px, 6vw, 84px) 90px;
-      overflow-wrap: anywhere;
-    }
-
-    .eyebrow {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 8px 0 12px;
-      font-size: clamp(30px, 5vw, 46px);
-      line-height: 1.15;
-      letter-spacing: -.03em;
-    }
-
-    h2 { margin-top: 34px; font-size: 22px; }
-    h3 { margin-top: 24px; font-size: 17px; }
-    p, li { color: #cbd0da; }
-    li + li { margin-top: 6px; }
-
-    .lead {
-      max-width: 760px;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .callout {
-      margin: 24px 0;
-      padding: 14px 17px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 7px;
-    }
-
-    .callout p { margin: 0; }
-
-    pre {
-      max-width: 100%;
-      padding: 17px;
-      overflow-x: auto;
-      color: #e4e9f2;
-      background: var(--code);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      line-height: 1.55;
-    }
-
-    code {
-      padding: .12em .35em;
-      color: #d9e8ff;
-      background: var(--code);
-      border-radius: 4px;
-      font: .92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    }
-
-    pre code { padding: 0; background: transparent; }
-
-    .doc-footer {
-      margin-top: 56px;
-      padding-top: 18px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    @media (max-width: 760px) {
-      .topbar { gap: 10px; padding: 10px 14px; }
+    html { scroll-behavior: smooth; scroll-padding-top: 82px; }
+    body { margin: 0; color: var(--ink); background: white; font-size: 15px; line-height: 1.65; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .topbar { position: sticky; top: 0; z-index: 5; height: 64px; display: flex; align-items: center; gap: 22px; padding: 0 28px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.97); }
+    .brand { color: var(--ink); display: flex; align-items: center; gap: 11px; font-size: 16px; font-weight: 650; white-space: nowrap; }
+    .brand-mark { width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; color: white; background: #1769aa; font-size: 18px; font-weight: 700; }
+    .version { font-size: 12px; color: #535d68; border: 1px solid var(--line); border-radius: 5px; padding: 3px 8px; }
+    .search { position: relative; flex: 1; max-width: 500px; margin-left: auto; }
+    .search input { width: 100%; height: 36px; padding: 0 12px 0 36px; border: 1px solid #d7dce1; border-radius: 6px; background: #f8f9fa; color: var(--ink); font: inherit; font-size: 13px; outline: none; }
+    .search input:focus { border-color: #82b6df; background: white; box-shadow: 0 0 0 3px #eaf4fc; }
+    .search-icon { position: absolute; left: 12px; top: 7px; color: #727c87; pointer-events: none; }
+    .home-link { white-space: nowrap; font-size: 13px; font-weight: 600; }
+    .layout { display: grid; grid-template-columns: var(--nav-width) minmax(0, 1fr) 218px; min-height: calc(100vh - 64px); }
+    .sidebar { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow: auto; padding: 24px 16px 38px 22px; border-right: 1px solid var(--line); }
+    .nav-label { margin: 17px 10px 6px; color: #7b838d; font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+    .nav-item { display: block; width: 100%; padding: 6px 10px; border: 0; border-radius: 5px; text-align: left; color: #434b54; background: transparent; font: inherit; font-size: 13px; cursor: pointer; }
+    .nav-item:hover { background: var(--soft); text-decoration: none; }
+    .nav-item.active { color: #145e9d; background: var(--blue-soft); font-weight: 600; }
+    main { min-width: 0; max-width: 950px; width: 100%; padding: 42px clamp(28px, 5vw, 76px) 90px; }
+    .breadcrumbs { margin-bottom: 12px; color: #737d87; font-size: 12px; }
+    h1 { margin: 0 0 12px; font-size: clamp(30px, 3.2vw, 42px); font-weight: 650; letter-spacing: -.035em; line-height: 1.2; }
+    .lead { max-width: 760px; margin: 0 0 28px; color: #58616c; font-size: 17px; line-height: 1.6; }
+    h2 { margin: 40px 0 12px; padding-top: 4px; font-size: 24px; font-weight: 620; line-height: 1.35; letter-spacing: -.02em; }
+    h3 { margin: 26px 0 8px; font-size: 18px; font-weight: 620; }
+    p { margin: 10px 0 16px; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 5px 0; }
+    code { padding: 2px 5px; border-radius: 4px; background: #f0f2f4; color: #27313b; font: 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    pre { overflow: auto; margin: 18px 0 22px; padding: 18px 20px; border: 1px solid #e1e5e9; border-radius: 7px; background: #f7f8fa; line-height: 1.55; }
+    pre code { padding: 0; background: transparent; white-space: pre; }
+    .note { margin: 22px 0; padding: 13px 16px; border-left: 3px solid #2282c5; border-radius: 0 5px 5px 0; background: #f0f7fc; color: #394956; }
+    .note strong { display: block; margin-bottom: 3px; color: #245b83; }
+    table { width: 100%; margin: 18px 0 24px; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 10px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f5f7f8; font-weight: 600; }
+    .toc { position: sticky; top: 88px; align-self: start; padding: 34px 18px 30px 8px; max-height: calc(100vh - 88px); overflow: auto; }
+    .toc-title { margin-bottom: 8px; font-size: 12px; font-weight: 650; }
+    .toc a { display: block; margin: 6px 0; color: #68717d; font-size: 12px; line-height: 1.4; }
+    .toc a:hover { color: var(--blue); }
+    .toc a.sub { padding-left: 12px; }
+    .footer { margin-top: 58px; padding-top: 18px; border-top: 1px solid var(--line); color: #737d87; font-size: 12px; }
+    .menu-button { display: none; border: 0; background: transparent; color: var(--ink); font-size: 22px; cursor: pointer; }
+    .empty { padding: 20px 10px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 1050px) { .layout { grid-template-columns: var(--nav-width) minmax(0,1fr); } .toc { display: none; } }
+    @media (max-width: 700px) {
+      .topbar { height: auto; min-height: 58px; flex-wrap: wrap; gap: 10px; padding: 10px 14px; }
+      .menu-button { display: block; }
+      .brand { font-size: 14px; }
       .version { display: none; }
-      .search { width: 52vw; }
+      .search { order: 3; flex-basis: 100%; max-width: none; }
+      .home-link { margin-left: auto; font-size: 12px; }
       .layout { display: block; }
-      aside {
-        position: static;
-        width: 100%;
-        height: auto;
-        max-height: 250px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-      }
-      main { padding-top: 30px; }
+      .sidebar { display: none; position: fixed; z-index: 4; top: 105px; left: 0; width: min(86vw, 320px); height: calc(100vh - 105px); background: white; box-shadow: 8px 8px 24px #0002; }
+      .sidebar.open { display: block; }
+      main { padding: 30px 22px 65px; }
     }
   </style>
 </head>
-
 <body>
   <header class="topbar">
-    <a class="brand" href="#" id="homeLink">Wobblengine Docs</a>
-    <span class="version">2D Engine · Python 3.11+</span>
-    <input class="search" id="search" type="search" placeholder="Search documentation…" aria-label="Search documentation">
+    <button class="menu-button" id="menuButton" aria-label="Open documentation navigation">☰</button>
+    <a class="brand" href="#overview" aria-label="Wobblengine Documentation home"><span class="brand-mark">W</span><span>Wobblengine Documentation</span></a>
+    <span class="version">0.1</span>
+    <label class="search"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="Search documentation…" aria-label="Search documentation"></label>
+    <a class="home-link" href="https://wobblengine.wobblabs.dev/">← Wobblengine Home</a>
   </header>
-
   <div class="layout">
-    <aside id="sidebar" aria-label="Documentation navigation"></aside>
-    <main>
-      <div id="content"></div>
-      <footer class="doc-footer">
-        Wobblengine documentation · Python 3.11+
-      </footer>
-    </main>
+    <nav class="sidebar" id="sidebar" aria-label="Documentation navigation"></nav>
+    <main id="mainContent"></main>
+    <aside class="toc" id="toc" aria-label="On this page"></aside>
   </div>
-
   <script>
-    const docs = {
-      "Getting Started": [
-        {
-          title: "Overview",
-          body: `
-            <p class="lead">Wobblengine is a Python 2D game engine with a Unity-style editor, component-based GameObjects, a fixed-rate physics tick, and desktop and web build profiles.</p>
-            <div class="callout"><p>The editor's game renderer uses pygame-ce's hardware-accelerated SDL2 renderer. Vulkan bindings are included as a dependency, but a Vulkan renderer is not implemented yet.</p></div>
-            <h2>Project structure</h2>
-            <p>Projects keep scenes, scripts, images, and settings under the project folder. Project settings are stored in <code>project/project.json</code>; scene files use JSON.</p>
-            <h2>Default script</h2>
-            <pre><code>from wobblengine import Wobblengine
+    const articles = [
+      { section: "Getting Started", title: "Overview", id: "overview", lead: "Build and run 2D games with Wobblengine, a Python game engine with a dockable editor and a separate game window.", body: `
+        <h2 id="requirements">Requirements</h2><p>Wobblengine targets Python 3.11 or newer. Open the project folder in VS Code, create a virtual environment, and install the dependencies from <code>requirements.txt</code>.</p>
+        <pre><code>python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m wobblengine</code></pre>
+        <p>The editor creates a starter project and scene the first time it runs. Use the Play control to open the game in its separate runtime window.</p>
+        <h2 id="editor-layout">Editor layout</h2><p>The editor includes Scene, Play, Hierarchy, Inspector, Project Files, Console, Terminal, and Project Settings panels. Panels can be moved and docked together as tabs. Save or load named layouts from <strong>Window → Layouts</strong>.</p>
+        <h2 id="scripts">Scripts</h2><p>Game scripts are Python 3 files. Create one from Project Files with the context menu or the script action. New scripts inherit from <code>Wobblengine</code> and include lifecycle methods with explanatory comments.</p>
+        <h2 id="current-renderer">Current renderer</h2><p>The runtime draws Sprite Renderer components using pygame-ce's accelerated SDL2 renderer. Vulkan is listed as a dependency for future rendering work; the current renderer does not use Vulkan.</p>` },
+      { section: "Getting Started", title: "Script Lifecycle", id: "lifecycle", lead: "Wobblengine calls lifecycle hooks as a game object and its scripts are created, enabled, updated, and destroyed.", body: `
+        <h2 id="order">Call order</h2><p>For an enabled script, initialization runs in this order:</p><ol><li><code>Awake()</code> when the script instance is created.</li><li><code>OnEnable()</code> when it becomes enabled.</li><li><code>Start()</code> once before its first frame update.</li></ol><p>During play, fixed-tick callbacks run at 60 Hz, followed by frame callbacks. When a script or object is removed, disable and destroy callbacks are sent.</p>
+        <h2 id="callbacks">Available callbacks</h2><table><thead><tr><th>Method</th><th>When it runs</th></tr></thead><tbody><tr><td><code>Awake</code></td><td>Once when the script instance is created.</td></tr><tr><td><code>OnEnable</code></td><td>When the script becomes enabled.</td></tr><tr><td><code>Start</code></td><td>Once before the first update.</td></tr><tr><td><code>FixedUpdate</code></td><td>At the fixed 60 Hz simulation tick.</td></tr><tr><td><code>OnTickUpdate</code></td><td>At the same fixed 60 Hz tick.</td></tr><tr><td><code>Update</code></td><td>Once per rendered frame.</td></tr><tr><td><code>LateUpdate</code></td><td>After frame updates.</td></tr><tr><td><code>OnDisable</code></td><td>When the script is disabled or removed.</td></tr><tr><td><code>OnDestroy</code></td><td>When the game object is destroyed.</td></tr></tbody></table>
+        <h2 id="template">Default script template</h2><pre><code>from wobblengine import Wobblengine
 
-class PlayerController(Wobblengine):
-    # Called once before the first frame update.
+class NewScript(Wobblengine):
     def Start(self):
+        # Called once before the first frame update.
         pass
 
-    # Called once per rendered frame.
     def Update(self):
+        # Called once per rendered frame.
         pass
 
-    # Called on the fixed 60 Hz tick.
     def OnTickUpdate(self):
+        # Called at the fixed 60 Hz simulation tick.
         pass</code></pre>
-          `
-        },
-        {
-          title: "Editor shortcuts",
-          body: `
-            <h2>Scene and editing</h2>
-            <ul>
-              <li><code>Ctrl/Cmd + S</code> — save the scene</li>
-              <li><code>Ctrl/Cmd + Z</code> — undo</li>
-              <li><code>Ctrl/Cmd + Shift + Z</code> or <code>Ctrl/Cmd + Y</code> — redo</li>
-              <li><code>Ctrl/Cmd + D</code> — duplicate the selected GameObject</li>
-              <li><code>Delete</code> — delete the selected GameObject</li>
-              <li><code>Ctrl/Cmd + N</code> — create a GameObject</li>
-              <li><code>F</code> — focus the selected object in Scene</li>
-              <li><code>W</code>, <code>E</code>, <code>R</code> — Move, Scale, Rotate</li>
-              <li>Middle or right mouse drag — pan the Scene view</li>
-              <li>Mouse wheel — zoom the Scene view</li>
-            </ul>
-            <h2>Project</h2>
-            <ul>
-              <li><code>Ctrl/Cmd + B</code> — build the game</li>
-              <li><code>Ctrl/Cmd + P</code> — toggle Play mode</li>
-              <li><code>Ctrl/Cmd + Shift + S</code> — save a named editor layout</li>
-              <li><code>Ctrl/Cmd + Q</code> — exit the editor</li>
-            </ul>
-            <p>Shortcuts that edit the scene are ignored while a text field is being edited. Saving still works from a text field.</p>
-          `
-        }
-      ],
+        <h2 id="instance-data">Script instance data</h2><p>Scripts can access their <code>game_object</code>, frame <code>delta_time</code>, <code>fixed_delta_time</code>, and pygame module through the base class. Helpers include <code>is_key_pressed(key)</code>, <code>log(message)</code>, and camera switching with <code>set_active_camera(camera_id)</code>.</p>` },
+      { section: "Getting Started", title: "Editor Shortcuts", id: "shortcuts", lead: "Keyboard shortcuts for common editor actions.", body: `
+        <h2 id="general">General</h2><table><thead><tr><th>Shortcut</th><th>Action</th></tr></thead><tbody><tr><td><code>Ctrl/Cmd + S</code></td><td>Save the current project or scene.</td></tr><tr><td><code>Ctrl/Cmd + Z</code></td><td>Undo the last supported editor action.</td></tr><tr><td><code>Ctrl/Cmd + Shift + Z</code></td><td>Redo an undone action.</td></tr><tr><td><code>Ctrl/Cmd + Q</code></td><td>Quit the editor.</td></tr></tbody></table>
+        <h2 id="scene">Scene tools</h2><table><thead><tr><th>Shortcut</th><th>Tool</th></tr></thead><tbody><tr><td><code>W</code></td><td>Move</td></tr><tr><td><code>E</code></td><td>Scale</td></tr><tr><td><code>R</code></td><td>Rotate (2D Z axis)</td></tr><tr><td>Middle or right mouse drag</td><td>Pan the Scene view</td></tr><tr><td>Mouse wheel</td><td>Zoom the Scene view</td></tr></tbody></table><p>Shortcuts are ignored while a text field is being edited.</p>` },
+      { section: "Editor", title: "Scene and Transforms", id: "scene-view", lead: "Select and edit GameObjects in the Scene view with familiar 2D move, rotate, and scale handles.", body: `
+        <h2 id="selection">Selection and navigation</h2><p>Click a visible GameObject to select it. The selection remains available when interacting with empty space in the Scene view. Use the Hierarchy to select objects that have no visible sprite. Pan with the middle or right mouse button; use the wheel to zoom.</p>
+        <h2 id="handles">Transform handles</h2><p>Choose Move, Rotate, or Scale from the Scene toolbar. Move handles drag along the world X and Y axes. Rotate uses the single 2D rotation axis (Z). Scale handles resize along the selected axis; use the center handle for uniform scaling when shown.</p>
+        <h2 id="grid">Grid and units</h2><p>The Scene grid is the spatial reference for 2D objects. One world unit corresponds to one grid cell. Object transform values are editable in the Inspector and represented by the same handles in the Scene view.</p>
+        <h2 id="hierarchy">Hierarchy</h2><p>GameObjects can be nested under parents. Click the disclosure arrow to collapse or expand children. Right-click in the Hierarchy to create, rename, duplicate, reparent, or delete GameObjects.</p>` },
+      { section: "Editor", title: "Project Files", id: "project-files", lead: "Browse the project's real folders and files, preview images, and manage assets from the Project Files panel.", body: `
+        <h2 id="folders">Folders and search</h2><p>Project Files follows the on-disk project folder structure. Click a folder to open it and use the search field to filter visible assets. Right-click a folder or empty space to create project folders and supported asset files.</p>
+        <h2 id="previews">Image previews</h2><p>Recognized image assets use the image itself as the thumbnail. Select an image to view its preview and sprite import settings. Double-click a file to open it with the operating system's associated application.</p>
+        <h2 id="metadata">Sprite import metadata</h2><p>Sprite settings are stored beside the image in a <code>.meta.json</code> file. Available settings include compression, Point/Bilinear/Trilinear filtering, pixels per unit, tiling, wrap mode, and related import options.</p>
+        <h2 id="atlas">Sprite Atlases</h2><p>Create a Sprite Atlas from the Project Files context menu, add image assets to it, and configure packing options in the Inspector. Pack Atlas generates a PNG texture and stores sprite rectangles in the atlas metadata file. Build Profiles can also generate one combined build atlas.</p>` },
+      { section: "Editor", title: "Layouts", id: "layouts", lead: "Arrange dockable editor panels and save named workspace layouts.", body: `
+        <h2 id="docking">Move and dock panels</h2><p>Drag panel title bars to move them. Drop a panel over another panel to dock the two together as tabs. The top toolbar can also be moved and docked.</p>
+        <h2 id="save-layout">Save a layout</h2><p>Choose <strong>Window → Layouts → Save</strong>, enter a name, and confirm. If that name already exists, the editor asks whether to replace the saved layout.</p>
+        <h2 id="open-layout">Open a layout</h2><p>Choose <strong>Window → Layouts → Open</strong> and select a saved layout name. On startup, Wobblengine restores the default layout preset, including a custom layout when it has been made the default.</p>` },
+      { section: "Runtime", title: "GameObjects and Components", id: "gameobjects", lead: "A scene is made of GameObjects, each with a Transform and optional behavior or rendering components.", body: `
+        <h2 id="gameobject">GameObjects</h2><p>GameObjects are scene entities listed in the Hierarchy. Organize them using parent and child relationships. Scripts attached to a GameObject can read it as <code>self.game_object</code>.</p>
+        <h2 id="transform">Transform</h2><p>Every GameObject has a Transform. It stores 2D position, Z-axis rotation, and scale. The Transform cannot be removed.</p>
+        <h2 id="components">Built-in components</h2><table><thead><tr><th>Component</th><th>Purpose</th></tr></thead><tbody><tr><td>Camera</td><td>Defines a camera ID and output resolution. Camera ID 0 is active by default.</td></tr><tr><td>Sprite Renderer</td><td>Draws a sprite image, tint, and optional atlas region.</td></tr><tr><td>Rigidbody2D</td><td>Stores velocity, damping, gravity scale, and maximum fall speed.</td></tr><tr><td>Box Collider2D</td><td>Axis-aligned rectangular collision shape.</td></tr><tr><td>Circle Collider2D</td><td>Circular collision shape.</td></tr><tr><td>Polygon Collider2D</td><td>Polygonal collision shape with editable points.</td></tr></tbody></table>
+        <h2 id="add-component">Add a component</h2><p>Select a GameObject and choose <strong>Add Component</strong> in the Inspector. Transform is always present; other components can be added or removed.</p>` },
+      { section: "Runtime", title: "Camera", id: "camera", lead: "Cameras define the game view resolution and select which scene view is rendered during play.", body: `
+        <h2 id="camera-fields">Camera settings</h2><p>Add a Camera component to a GameObject and set its resolution and Camera ID in the Inspector. Its view follows the GameObject's Transform.</p>
+        <h2 id="active-camera">Active camera</h2><p>Camera ID <code>0</code> is active by default. A script can switch to another camera ID at runtime:</p><pre><code>self.set_active_camera(1)</code></pre><p>The Play window displays the currently active camera view.</p>` },
+      { section: "Runtime", title: "Physics 2D", id: "physics-2d", lead: "Use 2D rigid bodies and colliders for fixed-step movement and collision callbacks.", body: `
+        <h2 id="units">Units and speed</h2><p>One world unit maps to one Scene grid cell. Linear velocity is measured in units per second. Use <code>FixedUpdate</code> or <code>OnTickUpdate</code> for fixed-step physics behavior.</p>
+        <h2 id="rigidbody">Rigidbody2D</h2><p>Rigidbody2D exposes Linear Velocity, Linear Dampening, Max Fall Speed, and Gravity Scale. Velocity is integrated over fixed ticks.</p>
+        <h2 id="colliders">Collider shapes</h2><p>Wobblengine supports Box Collider2D, Circle Collider2D, and Polygon Collider2D. Polygon points can be adjusted in the Inspector and Scene view.</p>
+        <h2 id="raycast">Collision checks</h2><p>Movement collision detection casts along the proposed movement direction. The ray length accounts for the body's speed over the tick. If a collider is hit, the body is moved to the hit point on the next tick and collision callbacks are dispatched.</p>
+        <h2 id="callbacks">Collision callbacks</h2><p>Scripts can implement <code>OnCollisionEnter(collision)</code>, <code>OnCollisionStay(collision)</code>, and <code>OnCollisionExit(collision)</code>. Trigger volumes are not currently part of the collision API.</p>` },
+      { section: "Runtime", title: "Tick System", id: "tick-system", lead: "The fixed tick is scheduled for 60 calls per second for deterministic gameplay timing.", body: `
+        <h2 id="desktop">Desktop</h2><p>On desktop, the runtime runs <code>FixedUpdate()</code> and <code>OnTickUpdate()</code> on a dedicated tick thread at a 60 Hz target. Each tick uses a fixed delta time of 1/60 second.</p>
+        <h2 id="web">Web builds</h2><p>WebAssembly builds run the tick on the same thread as the game loop because browsers do not support the desktop thread setup used by Wobblengine. The tick still targets 60 calls per second.</p>
+        <h2 id="fixed-vs-frame">Fixed and frame updates</h2><p>Use fixed callbacks for physics and fixed-step simulation. Use <code>Update()</code> for frame-based behavior. The actual frame rate can vary independently of the fixed tick rate.</p>` },
+      { section: "Rendering", title: "2D Renderer", id: "renderer", lead: "The current runtime uploads and draws Sprite Renderer textures through pygame-ce's accelerated SDL2 renderer.", body: `
+        <h2 id="sprites">Sprites</h2><p>Sprite Renderer draws the selected image at the GameObject's Transform with an optional tint. Sprite Atlas builds store texture rectangles so a sprite can be drawn from the shared atlas texture.</p>
+        <h2 id="gpu">GPU rendering</h2><p>Wobblengine uses pygame-ce's hardware-accelerated SDL2 rendering path for the game window. The editor Scene view currently uses Dear PyGui's drawing interface. Vulkan bindings are installed but a Vulkan renderer has not yet been implemented.</p>
+        <h2 id="future">Rendering roadmap</h2><p>The renderer API is a foundation for later expansion. Current public project support is 2D.</p>` },
+      { section: "Assets and Builds", title: "Sprite Import Settings", id: "sprite-import", lead: "Per-image metadata controls how sprite textures are sampled and prepared by the editor and build pipeline.", body: `
+        <h2 id="settings-file">Metadata file</h2><p>Sprite import settings are saved next to the source image in a <code>.meta.json</code> sidecar file. This keeps import choices with the asset when the project is moved or versioned.</p>
+        <h2 id="filtering">Filtering and compression</h2><p>Choose Point, Bilinear, or Trilinear filtering to control texture sampling. Compression settings are stored in metadata for the asset pipeline.</p>
+        <h2 id="mapping">Pixels and texture mapping</h2><p>Pixels Per Unit controls how image pixels map to world units. Wrap and tiling settings control texture repetition and edge behavior. The Inspector exposes the available import options for the selected image.</p>` },
+      { section: "Assets and Builds", title: "Sprite Atlas", id: "sprite-atlas", lead: "Pack multiple sprite assets into a shared texture and keep per-sprite rectangles in atlas metadata.", body: `
+        <h2 id="create-atlas">Create and populate</h2><p>Right-click in Project Files and choose <strong>Create → Sprite Atlas</strong>. Select one or more image assets and use <strong>Add to Sprite Atlas</strong> to include them.</p>
+        <h2 id="packing-options">Packing options</h2><p>Atlas metadata includes Master or Variant type, include in build, rotation, tight packing, padding, maximum texture size, packed objects, master-atlas reference, and variant scale. Texture settings include filtering, compression, mipmaps, sRGB, read/write access, and alpha dilation.</p>
+        <h2 id="pack">Pack the atlas</h2><p>Choose <strong>Pack Atlas</strong> in the Inspector to produce a PNG atlas and persist each source sprite's rectangle in the <code>.spriteatlas.json</code> metadata. Variant atlases use a master atlas and a scale setting.</p>
+        <h2 id="build-atlas">Build atlas</h2><p>Build Profiles generate a combined <code>BuildAtlas.png</code> for project images and assign its sprite rectangles to scene renderers in the staged build.</p>` },
+      { section: "Assets and Builds", title: "Build Profiles", id: "build-profiles", lead: "Choose a target platform and output folder from Project Settings → Build Profiles.", body: `
+        <h2 id="targets">Build targets</h2><table><thead><tr><th>Target</th><th>Output</th><th>Tooling</th></tr></thead><tbody><tr><td>Windows</td><td>Windows executable build</td><td>PyInstaller; Windows SDK/toolchain for native Windows builds</td></tr><tr><td>macOS Universal</td><td>Universal .dmg package</td><td>PyInstaller, Xcode Command Line Tools, Apple Clang, macOS SDK, Universal2 Python</td></tr><tr><td>Linux</td><td>Linux build</td><td>PyInstaller, GCC or Clang, binutils, glibc</td></tr><tr><td>Web</td><td>HTML5/WebAssembly package</td><td>pygbag; WebAssembly and Emscripten where required</td></tr></tbody></table>
+        <h2 id="build-content">Build contents</h2><p>The build stages project files and assets, and generates a combined sprite atlas when image assets are present. Desktop packaging uses PyInstaller; web packaging uses pygbag. Python standard-library modules such as <code>pathlib</code>, <code>shutil</code>, <code>subprocess</code>, <code>json</code>, and <code>zipfile</code> support the build pipeline.</p>
+        <h2 id="platform-limitations">Platform toolchains</h2><p>Desktop packages should be built with the target platform's compatible Python and toolchain. A macOS Universal build requires Universal2 Python and Apple's macOS build tools.</p>` },
+      { section: "Reference", title: "Libraries", id: "libraries", lead: "Third-party packages and the role they have in Wobblengine.", body: `
+        <h2 id="engine-libraries">Engine dependencies</h2><table><thead><tr><th>Library</th><th>Use</th></tr></thead><tbody><tr><td>pygame-ce</td><td>Game window, input, events, audio, and accelerated SDL2 rendering.</td></tr><tr><td>vulkan</td><td>Vulkan API bindings; available for future renderer development.</td></tr><tr><td>numpy</td><td>Numerical arrays and calculations.</td></tr><tr><td>Pillow</td><td>Image loading, processing, and atlas preparation.</td></tr><tr><td>pymunk</td><td>2D physics library dependency; Wobblengine's current collision implementation is documented under Physics 2D.</td></tr><tr><td>PyGLM</td><td>Vector, matrix, and graphics math.</td></tr><tr><td>Dear PyGui</td><td>Editor interface, panels, inspector, and tools.</td></tr><tr><td>Pydantic</td><td>Settings and data validation.</td></tr><tr><td>orjson</td><td>Fast JSON serialization and parsing.</td></tr><tr><td>platformdirs</td><td>Cross-platform settings, cache, and save locations.</td></tr><tr><td>watchdog</td><td>Asset file monitoring and hot-reload support.</td></tr><tr><td>noise / opensimplex</td><td>Procedural noise generation utilities.</td></tr><tr><td>pytest</td><td>Engine system tests.</td></tr></tbody></table>
+        <h2 id="build-libraries">Build dependencies</h2><p>Desktop packaging uses PyInstaller. Web packaging uses pygbag. Native platform SDKs and compilers depend on the selected Build Profile. Python 3.11 or newer is required.</p>` },
+      { section: "Reference", title: "Wobblengine API", id: "api", lead: "Core script base class, runtime properties, callbacks, and project systems authored for Wobblengine.", body: `
+        <h2 id="base-class">Wobblengine script class</h2><p>Import <code>Wobblengine</code> as the base class for game scripts. The base exposes the owning GameObject, pygame access, delta-time values, input helpers, logging, and camera switching.</p>
+        <h2 id="api-methods">Common methods</h2><table><thead><tr><th>Member</th><th>Description</th></tr></thead><tbody><tr><td><code>is_key_pressed(key)</code></td><td>Returns whether a pygame key is held.</td></tr><tr><td><code>log(message)</code></td><td>Writes a message to the engine console.</td></tr><tr><td><code>set_active_camera(camera_id)</code></td><td>Switches the active camera by ID.</td></tr><tr><td><code>OnTickUpdate()</code></td><td>Fixed callback with a 60 Hz target.</td></tr><tr><td><code>OnCollisionEnter(collision)</code></td><td>Called when contact begins.</td></tr><tr><td><code>OnCollisionStay(collision)</code></td><td>Called while contact continues.</td></tr><tr><td><code>OnCollisionExit(collision)</code></td><td>Called when contact ends.</td></tr></tbody></table>
+        <h2 id="modules">Engine modules</h2><p>Engine source is in the <code>wobblengine/</code> package. Runtime script behavior is implemented in <code>script.py</code>, desktop and web loops in <code>play.py</code> and <code>web_play.py</code>, 2D collision data in <code>physics2d.py</code>, camera and sprite components in <code>camera.py</code>, and atlas packing in <code>sprite_atlas.py</code>.</p>` }
+    ];
 
-      "Libraries": [
-        {
-          title: "pygame-ce",
-          url: "https://pyga.me/docs/",
-          body: `<p>Window creation, keyboard and mouse input, events, audio, and game runtime support. Wobblengine imports it as <code>pygame</code>.</p><pre><code>import pygame
-events = pygame.event.get()
-pressed = pygame.key.get_pressed()</code></pre>`
-        },
-        {
-          title: "Vulkan",
-          url: "https://github.com/realitix/vulkan",
-          body: `<p>Python bindings for Vulkan. It is installed as a dependency, but the current game renderer uses pygame-ce SDL2 acceleration instead.</p>`
-        },
-        {
-          title: "NumPy",
-          url: "https://numpy.org/doc/stable/user/",
-          body: `<p>Numerical arrays and vectorized operations for data and image processing.</p>`
-        },
-        {
-          title: "Pillow",
-          url: "https://pillow.readthedocs.io/en/stable/",
-          body: `<p>Image loading and processing. Wobblengine uses Pillow for asset previews and sprite-atlas packing.</p>`
-        },
-        {
-          title: "Pymunk",
-          url: "https://www.pymunk.org/en/latest/",
-          body: `<p>2D rigid-body physics library included as a dependency. The current Wobblengine collision system uses its own raycast-based physics implementation.</p>`
-        },
-        {
-          title: "PyGLM",
-          url: "https://github.com/recp/pyglm",
-          body: `<p>Vector, matrix, and graphics math utilities in a Python interface to GLM.</p>`
-        },
-        {
-          title: "Dear PyGui",
-          url: "https://dearpygui.readthedocs.io/en/latest/",
-          body: `<p>Immediate-mode GUI toolkit used for the editor, inspector, hierarchy, project browser, and documentation panel.</p>`
-        },
-        {
-          title: "Pydantic",
-          url: "https://docs.pydantic.dev/latest/",
-          body: `<p>Data models and validation for project settings, scenes, GameObjects, components, and asset metadata.</p>`
-        },
-        {
-          title: "orjson",
-          url: "https://github.com/ijl/orjson",
-          body: `<p>Fast JSON serialization and parsing for project, scene, and metadata files.</p>`
-        },
-        {
-          title: "platformdirs",
-          url: "https://platformdirs.readthedocs.io/en/latest/",
-          body: `<p>Cross-platform locations for user settings, save data, and cache files.</p>`
-        },
-        {
-          title: "watchdog",
-          url: "https://python-watchdog.readthedocs.io/en/stable/",
-          body: `<p>Filesystem event monitoring. It is available for future asset and script hot-reloading support.</p>`
-        },
-        {
-          title: "pytest",
-          url: "https://docs.pytest.org/en/stable/",
-          body: `<p>Python test runner for engine and project tests.</p>`
-        },
-        {
-          title: "noise",
-          url: "https://github.com/caseman/noise",
-          body: `<p>Perlin noise functions for procedural textures, terrain, and effects.</p>`
-        },
-        {
-          title: "OpenSimplex",
-          url: "https://github.com/lmas/opensimplex",
-          body: `<p>OpenSimplex noise generation for procedural content.</p>`
-        },
-        {
-          title: "PyInstaller",
-          url: "https://pyinstaller.org/en/stable/",
-          body: `<p>Packages Python desktop builds. Desktop builds must be produced on their target operating system.</p>`
-        },
-        {
-          title: "pygbag",
-          url: "https://pygame-web.github.io/wiki/pygbag/",
-          body: `<p>Packages pygame-ce games for browsers through WebAssembly. Web runtime code must yield to the asyncio event loop.</p>`
-        }
-      ],
-
-      "Rendering": [
-        {
-          title: "Renderer",
-          body: `
-            <p>The game runtime draws Sprite Renderer components through <code>GPU2DRenderer</code>, using pygame-ce's accelerated SDL2 renderer.</p>
-            <p>Hardware acceleration is required; the renderer does not silently switch to software rendering. SDL selects the available native graphics driver, such as Metal, OpenGL, or Direct3D.</p>
-            <p>The Scene editor uses Dear PyGui draw lists for object previews, collider outlines, and transform handles. Vulkan is not the active rendering backend.</p>
-          `
-        },
-        {
-          title: "GPU2DRenderer API",
-          body: `
-            <ul>
-              <li><code>begin_frame(background)</code> — clear the frame.</li>
-              <li><code>draw_sprite(sprite, center, size, rotation)</code> — draw a sprite texture.</li>
-              <li><code>present()</code> — present the rendered frame.</li>
-              <li><code>set_resolution((width, height))</code> — update the window and logical resolution.</li>
-              <li><code>close()</code> — release renderer resources.</li>
-            </ul>
-            <p>An optional <code>atlas_rect</code> selects a region of a texture. Positive engine rotation is counter-clockwise.</p>
-          `
-        }
-      ],
-
-      "Wobblengine API": [
-        {
-          title: "GameObjects and components",
-          body: `
-            <p>A GameObject has an ID, name, Transform, components, optional parent, and optional script. Transform is always present and stores position, width, height, and 2D rotation.</p>
-            <p>Components currently include Camera, Sprite Renderer, Rigidbody 2D, Box Collider 2D, Circle Collider 2D, and Polygon Collider 2D.</p>
-            <pre><code>from wobblengine import BoxCollider2D, Rigidbody2D
-
-body = game_object.get_component(Rigidbody2D)
-collider = game_object.get_component(BoxCollider2D)</code></pre>
-            <p>Transform cannot be removed. Camera and Sprite Renderer can be added or removed from the Inspector.</p>
-          `
-        },
-        {
-          title: "Script lifecycle",
-          body: `
-            <ol>
-              <li><code>Awake()</code> — script instance created.</li>
-              <li><code>OnEnable()</code> — script becomes active.</li>
-              <li><code>Start()</code> — before the first rendered update.</li>
-              <li><code>FixedUpdate()</code> and <code>OnTickUpdate()</code> — fixed 60 Hz tick.</li>
-              <li><code>Update()</code> — once per rendered frame.</li>
-              <li><code>LateUpdate()</code> — after frame updates.</li>
-              <li><code>OnDisable()</code> and <code>OnDestroy()</code> — shutdown or deactivation.</li>
-            </ol>
-            <p>Legacy lowercase <code>start()</code> and <code>update()</code> methods are still called by <code>Start()</code> and <code>Update()</code>.</p>
-          `
-        },
-        {
-          title: "Fixed tick and threading",
-          body: `
-            <p>Desktop games run <code>FixedUpdate()</code> and <code>OnTickUpdate()</code> on an engine tick thread at a 60 Hz target. Web builds run the fixed tick coroutine on the same event-loop thread as rendering.</p>
-            <p>Browser timing depends on event-loop scheduling. The web runtime sleeps between ticks and processes overdue tick deadlines after a delayed frame.</p>
-            <pre><code>from wobblengine import FixedRateThread
-
-worker = FixedRateThread(my_function, rate_hz=60)
-worker.start()
-worker.stop()</code></pre>
-          `
-        },
-        {
-          title: "2D physics",
-          body: `
-            <p>Physics runs on the fixed 60 Hz tick. Velocity is measured in world units per second; one Scene grid cell represents one unit.</p>
-            <p>The physics system sweeps colliders across the velocity-times-timestep distance. When a raycast detects a hit, the object moves to the contact point on the next fixed tick. Inward velocity is removed so the body can slide.</p>
-            <h3>Rigidbody 2D</h3>
-            <ul>
-              <li><code>linear_velocity</code> — X/Y velocity in units per second.</li>
-              <li><code>linear_dampening</code> — reduce velocity over time.</li>
-              <li><code>max_fall_speed</code> — maximum downward speed.</li>
-              <li><code>gravity_scale</code> — scale the default gravity.</li>
-            </ul>
-            <p>Box, circle, and polygon colliders support offsets and rotation. Box size and circle radius can be edited in Scene. Polygon vertices can be dragged in Scene or edited in Inspector.</p>
-            <pre><code>def OnCollisionEnter(self, collision):
-    self.log(f"Hit {collision.game_object.name}")
-
-def OnCollisionStay(self, collision):
-    pass
-
-def OnCollisionExit(self, collision):
-    pass</code></pre>
-            <p><code>Collision2D</code> exposes <code>game_object</code>, <code>collider</code>, <code>point</code>, <code>normal</code>, and <code>relative_velocity</code>. Trigger behavior is not implemented yet.</p>
-          `
-        },
-        {
-          title: "Camera",
-          body: `
-            <p>Camera fields are <code>camera_id</code> and <code>resolution</code>. Camera ID 0 is active by default.</p>
-            <pre><code>self.set_active_camera(1)</code></pre>
-            <p>Scripts can change the active ID at runtime. The runtime renders through the camera with the matching ID.</p>
-          `
-        },
-        {
-          title: "Sprite Renderer",
-          body: `
-            <p>Sprite Renderer draws an image using its GameObject Transform. Without an image, the editor can still show the GameObject as a colored shape.</p>
-            <p>Project image assets can have sidecar import metadata for sprite mode, pixels per unit, mesh, filter, wrap, compression, maximum size, mipmaps, and alpha transparency.</p>
-          `
-        },
-        {
-          title: "Sprite atlases",
-          body: `
-            <p>Sprite Atlas metadata uses the <code>.spriteatlas.json</code> format. Settings include Master/Variant type, include in build, rotation, tight packing, padding, maximum size, Objects For Packing, filtering, compression, mipmaps, sRGB, read/write, and alpha dilation.</p>
-            <p>Build Profiles collect project images into a shared <code>BuildAtlas.png</code> and assign atlas rectangles to Sprite Renderer components.</p>
-          `
-        },
-        {
-          title: "Build profiles",
-          body: `
-            <ul>
-              <li><strong>Windows:</strong> .exe, built on Windows with PyInstaller.</li>
-              <li><strong>macOS Universal:</strong> .dmg, requires Universal2 Python and Xcode command-line tools.</li>
-              <li><strong>Web:</strong> HTML5/WebAssembly through pygbag.</li>
-              <li><strong>Linux:</strong> desktop build through PyInstaller and the Linux toolchain.</li>
-            </ul>
-            <p>Python 3.11 or newer is required. Desktop builds are produced on their target operating system.</p>
-          `
-        }
-      ]
-    };
-
-    const sidebar = document.getElementById("sidebar");
-    const content = document.getElementById("content");
-    const search = document.getElementById("search");
-    let selected = { category: "Getting Started", title: "Overview" };
-
-    function allEntries() {
-      return Object.entries(docs).flatMap(([category, entries]) =>
-        entries.map(entry => ({ category, ...entry }))
-      );
+    const nav = document.getElementById('sidebar');
+    const main = document.getElementById('mainContent');
+    const toc = document.getElementById('toc');
+    const search = document.getElementById('searchInput');
+    let currentId = location.hash.slice(1) || 'overview';
+    function plainText(article) { return (article.title + ' ' + article.lead + ' ' + article.body.replace(/<[^>]*>/g, ' ')).toLowerCase(); }
+    function visibleArticles() {
+      const term = search.value.trim().toLowerCase();
+      return term ? articles.filter(a => plainText(a).includes(term)) : articles;
     }
-
-    function renderSidebar() {
-      const query = search.value.trim().toLowerCase();
-      sidebar.innerHTML = "";
-
-      for (const [category, entries] of Object.entries(docs)) {
-        const group = document.createElement("section");
-        group.className = "nav-group";
-
-        const heading = document.createElement("h2");
-        heading.className = "nav-heading";
-        heading.textContent = category;
-        group.appendChild(heading);
-
-        const matches = entries.filter(entry => {
-          if (!query) return true;
-          const text = `${category} ${entry.title} ${entry.body} ${entry.url || ""}`
-            .replace(/<[^>]*>/g, " ")
-            .toLowerCase();
-          return text.includes(query);
+    function renderNav() {
+      const visible = visibleArticles();
+      const groups = [...new Set(articles.map(a => a.section))];
+      nav.innerHTML = '';
+      if (!visible.length) { nav.innerHTML = '<div class="empty">No pages match your search.</div>'; return; }
+      groups.forEach(section => {
+        const pages = visible.filter(a => a.section === section);
+        if (!pages.length) return;
+        const label = document.createElement('div'); label.className = 'nav-label'; label.textContent = section; nav.append(label);
+        pages.forEach(article => {
+          const button = document.createElement('button'); button.className = 'nav-item' + (article.id === currentId ? ' active' : ''); button.textContent = article.title;
+          button.onclick = () => { currentId = article.id; history.replaceState(null, '', '#' + article.id); renderNav(); renderArticle(); nav.classList.remove('open'); window.scrollTo(0, 0); };
+          nav.append(button);
         });
-
-        for (const entry of matches) {
-          const button = document.createElement("button");
-          button.className = "nav-link";
-          button.textContent = entry.title;
-          button.classList.toggle("active",
-            selected.category === category && selected.title === entry.title);
-          button.addEventListener("click", () => {
-            selected = { category, title: entry.title };
-            renderSidebar();
-            renderContent();
-          });
-          group.appendChild(button);
-        }
-
-        if (matches.length === 0) group.classList.add("empty");
-        sidebar.appendChild(group);
-      }
+      });
     }
-
-    function renderContent() {
-      const entry = docs[selected.category].find(item => item.title === selected.title);
-      if (!entry) return;
-
-      content.innerHTML = `
-        <div class="eyebrow">${selected.category}</div>
-        <h1>${entry.title}</h1>
-        ${entry.body}
-        ${entry.url ? `<p><a href="${entry.url}" target="_blank" rel="noopener noreferrer">Open official documentation ↗</a></p>` : ""}
-      `;
+    function renderArticle() {
+      const article = articles.find(a => a.id === currentId) || articles[0]; currentId = article.id;
+      main.innerHTML = `<div class="breadcrumbs">Documentation <span aria-hidden="true">/</span> ${article.section}</div><h1>${article.title}</h1><p class="lead">${article.lead}</p>${article.body}<div class="footer">Wobblengine Documentation · Version 0.1 · <a href="https://wobblengine.wobblabs.dev/">Return to Wobblengine</a></div>`;
+      const headings = [...main.querySelectorAll('h2, h3')]; toc.innerHTML = '<div class="toc-title">On this page</div>';
+      headings.forEach(h => { const link = document.createElement('a'); link.href = '#' + h.id; link.textContent = h.textContent; if (h.tagName === 'H3') link.className = 'sub'; toc.append(link); });
+      document.title = article.title + ' | Wobblengine Documentation';
     }
-
-    search.addEventListener("input", renderSidebar);
-    document.getElementById("homeLink").addEventListener("click", event => {
-      event.preventDefault();
-      selected = { category: "Getting Started", title: "Overview" };
-      search.value = "";
-      renderSidebar();
-      renderContent();
-    });
-
-    renderSidebar();
-    renderContent();
+    search.addEventListener('input', () => { renderNav(); if (search.value.trim()) { const first = visibleArticles()[0]; if (first && first.id !== currentId) { currentId = first.id; renderArticle(); } } });
+    document.getElementById('menuButton').addEventListener('click', () => nav.classList.toggle('open'));
+    window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (articles.some(a => a.id === id)) { currentId = id; renderNav(); renderArticle(); } });
+    renderNav(); renderArticle();
   </script>
 </body>
 </html>
